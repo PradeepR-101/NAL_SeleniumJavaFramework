@@ -12,6 +12,8 @@ public class LP {
 
   public void sampleMath(){
     k=a+b;
+	  syso("sample")
+		  b=k-a;
   }
 
 
