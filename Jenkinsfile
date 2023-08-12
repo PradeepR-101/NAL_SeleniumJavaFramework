@@ -1,72 +1,79 @@
 pipeline{
 
     agent any
+        
+        tools{
+            maven 'maven'
+            }
 
         stages{
 
             stage("build"){
                 steps{
-                    echo("build the project")
+                    git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+                    bat "mvn -Dmaven.test.failure.ignore=true clean package"
                  }
+                 post
+                 {
+                     success
+                     {
+                          junit '**/target/surefire-reports/TEST-*.xml'
+                          archiveArtifacts 'target/*.jar'
+                     }
+                  }
              }
-
-            stage("Run Unit test"){
-                steps{
-                    echo("build the project")
-                 }
-             }
-
-            stage("Run Integration test"){
-                steps{
-                    echo("build the project")
-                 }
-             }
-
-            stage("deploy to dev"){
-                steps{
-                    echo("build the project")
-                 }
-             }
-
+           
             stage("deploy to QA"){
                 steps{
-                    echo("build the project")
-                 }
-             }
-             
-            stage("Run regression testcases on QA"){
-                steps{
-                    echo("build the project")
+                    echo("deploy to QA")
                  }
              }
 
-            stage("deploy to stage"){
+            stage("Regression Automation Test"){
                 steps{
-                    echo("build the project")
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        git 'https://github.com/PradeepR-101/NAL_SeleniumJavaFramework'
+                        bat "mvn clean test -Dsurefire.suiteXmlFiles=src/main/resources/testrunners/testng_regression.xml"
                  }
              }
 
-            stage("Run sanity testcases on QA"){
+            stage("publish allure report"){
                 steps{
-                    echo("build the project")
+                    script {
+                        allure([
+                            includeProperties: false,
+                            jdk: ''
+                            properties: []
+                            reportBuildPolicy: 'ALWAYS'
+                            results: [[path: '/allure-results']]
+                        ]}
                  }
              }
-             
-            stage("deploy to UAT"){
+          
+             stage("deploy to Stage"){
                 steps{
-                    echo("deploy to UAT")
+                    echo("deploy to Stage")
                  }
              }
 
-            stage("Run sanity testcases on UAT"){
+            stage("Sanity Automation Test"){
                 steps{
-                    echo("Run sanity testcases on UAT")
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        git 'https://github.com/PradeepR-101/NAL_SeleniumJavaFramework'
+                        bat "mvn clean test -Dsurefire.suiteXmlFiles=src/main/resources/testrunners/testng_sanity.xml"
                  }
              }
 
-            stage("deploy to prod"){
+            stage("publish allure report"){
                 steps{
-                    echo("build the project")
+                    script {
+                        allure([
+                            includeProperties: false,
+                            jdk: ''
+                            properties: []
+                            reportBuildPolicy: 'ALWAYS'
+                            results: [[path: '/allure-results']]
+                        ]}
                  }
              }
             
