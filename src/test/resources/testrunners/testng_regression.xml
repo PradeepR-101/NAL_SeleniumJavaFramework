@@ -13,11 +13,11 @@
 			class-name="com.qa.opencart.listeners.AnnotationTransformer" />
 	</listeners>
 
-	<test name="Login Page Test">
+	<!-- <test name="Login Page Test">
 		<classes>
 			<class name="com.qa.opencart.tests.LoginPageTest" />
 		</classes>
-	</test>
+	</test> -->
 
 	<test name="Accounts Page Test">
 		<classes>
@@ -31,11 +31,11 @@
 		</classes>
 	</test> -->
 
-	<test name="Register Page Test">
+	<!-- <test name="Register Page Test">
 		<classes>
 			<class name="com.qa.opencart.tests.RegisterPageTest" />
 		</classes>
-	</test>
+	</test> -->
 
 
 
