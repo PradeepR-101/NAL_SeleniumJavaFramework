@@ -47,7 +47,7 @@ public class OptionsManager {
 		
 		if(Boolean.parseBoolean(prop.getProperty("remote"))) {
 			fo.setCapability("BrowserName", "firefox");
-			fo.setCapability("enableVNC", true);
+//			fo.setCapability("enableVNC", true);
 		}
 		return fo;
 	}
@@ -63,7 +63,7 @@ public class OptionsManager {
 		
 		if(Boolean.parseBoolean(prop.getProperty("remote"))) {
 			eo.setCapability("BrowserName", "edge");
-			eo.setCapability("enableVNC", true);
+//			eo.setCapability("enableVNC", true);
 		}
 		return eo;
 	}
