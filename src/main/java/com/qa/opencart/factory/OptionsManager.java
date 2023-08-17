@@ -1,5 +1,7 @@
 package com.qa.opencart.factory;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -31,7 +33,15 @@ public class OptionsManager {
 		
 		if(Boolean.parseBoolean(prop.getProperty("remote"))) {
 			co.setCapability("browserName", "chrome");
+			co.setBrowserVersion(prop.getProperty("browserversion").trim());
 //			co.setCapability("enableVNC", true);
+			
+			Map<String, Object> selenoidOptions = new HashMap<>();
+			selenoidOptions.put("screenResolution", "1280x1024x24");
+			selenoidOptions.put("enableVNC", true);
+			selenoidOptions.put("name", prop.getProperty("testname"));
+			co.setCapability("selenoid:options", selenoidOptions);
+			
 		}
 		return co;
 	}
@@ -47,6 +57,7 @@ public class OptionsManager {
 		
 		if(Boolean.parseBoolean(prop.getProperty("remote"))) {
 			fo.setCapability("BrowserName", "firefox");
+			fo.setBrowserVersion(prop.getProperty("browserversion").trim());
 //			fo.setCapability("enableVNC", true);
 		}
 		return fo;
@@ -63,6 +74,7 @@ public class OptionsManager {
 		
 		if(Boolean.parseBoolean(prop.getProperty("remote"))) {
 			eo.setCapability("BrowserName", "edge");
+			//selenoid does not support for edge 
 //			eo.setCapability("enableVNC", true);
 		}
 		return eo;
