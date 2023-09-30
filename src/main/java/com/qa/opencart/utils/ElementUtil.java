@@ -604,6 +604,106 @@ public class ElementUtil {
 		String flag = wait.until(ExpectedConditions.jsReturnsValue("return document.readyState == 'complete'")).toString();
 		return Boolean.parseBoolean(flag);
 	}
+
 	
-	
+	//general explore
+	 public void clickOnKeyboardEnterKey() {
+    	try {
+            // Create a new Robot instance
+            Robot robot = new Robot();
+
+            // Simulate pressing the Enter key
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void clickOnKeyboardDeleteKey() {
+    	try {
+            // Create a new Robot instance
+            Robot robot = new Robot();
+
+            // Simulate pressing the Enter key
+            robot.keyPress(KeyEvent.VK_DELETE);
+            robot.keyRelease(KeyEvent.VK_DELETE);
+
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void copyUsingKeyboardKeys() {
+    	 Robot robot;
+		try {
+			robot = new Robot();
+			
+			// Simulate pressing Ctrl+C (Copy)
+	         robot.keyPress(KeyEvent.VK_CONTROL);
+	         robot.keyPress(KeyEvent.VK_C);
+	         robot.keyRelease(KeyEvent.VK_C);
+	         robot.keyRelease(KeyEvent.VK_CONTROL);
+	         
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}   
+    }
+    
+    public void pasteUsingKeyboardKeys() {
+   	 Robot robot;
+		try {
+			robot = new Robot();
+			
+			robot.setAutoDelay(2000);
+			
+			// Simulate pressing Ctrl+C (Copy)
+	         robot.keyPress(KeyEvent.VK_CONTROL);
+	         robot.keyPress(KeyEvent.VK_V);
+	         robot.keyRelease(KeyEvent.VK_V);
+	         robot.keyRelease(KeyEvent.VK_CONTROL);
+	         
+	         robot.setAutoDelay(2000);
+	         
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}   
+   }
+    
+    public void setClipboardText(String strClipboard) {
+    	StringSelection sr = new StringSelection(strClipboard);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(sr, null);
+    }
+    
+    public void openNewTab() {
+    	driver.findElement(By.tagName("body")).sendKeys(Keys.CONTROL + "t");
+    }
+    
+    public void duplicateTab() {
+    	Actions act = new Actions(driver);
+    	act.sendKeys(Keys.ALT).build().perform();
+    	act.sendKeys(Keys.chord("d"),Keys.ENTER);
+    }
+    
+    public void switchToWindowIndex(int index) {
+    	int n=0;
+    	for(String handle : driver.getWindowHandles()) {
+    		if(n == index) {
+    			driver.switchTo().window(handle);
+    			break;
+    		}
+    		++n;
+    	}
+    }
+    
+    public void switchToNewTab() {
+    	String originalHandle = driver.getWindowHandle();
+    	for(String handle : driver.getWindowHandles()) {
+    		if(!handle.equals(originalHandle)) {
+    			driver.switchTo().window(handle);
+    			break;
+    		}
+    	}
+    }
 }
